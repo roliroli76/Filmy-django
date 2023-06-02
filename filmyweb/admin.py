@@ -12,3 +12,6 @@ class FilmAdmin(admin.ModelAdmin):
     list_display = ["tytul", "imbd_rating", "rok"]
     list_filter = ("rok", "imbd_rating")
     search_fields = ("tytul",  "opis")
+
+
+# dupa zobaczyny czy bedzie na githubie
