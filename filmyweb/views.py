@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Film
 # Create your views here.
 
-def test_response(request):
-    return HttpResponse("<h1>To jest mój pierwszy test</h1>")
+def wszystkie_filmy(request):
+    wszystkie = Film.objects.all()
+    return render(request, 'filmy.html', {'filmy': wszystkie})
+
