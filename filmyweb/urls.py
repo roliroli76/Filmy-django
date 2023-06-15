@@ -1,6 +1,8 @@
 from django.urls import path
-from filmyweb.views import wszystkie_filmy
+from filmyweb.views import wszystkie_filmy, nowy_film, edytuj_film
 
 urlpatterns = [
-    path('wszytskie/', wszystkie_filmy)
+    path('wszystkie/', wszystkie_filmy),
+    path('nowy/', nowy_film),
+    path('edytuj/<int:id>/', edytuj_film),
 ]
