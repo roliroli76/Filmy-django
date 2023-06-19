@@ -1,39 +1,44 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'nowy.css' %}">
-</head>
-<body>
-    {% if user.is_authenticated  %}
-        Witaj {{ user.username }}<br>
-        <a href="{% url 'logout' %}">Logout</a>
+{% extends 'glowny.html' %}
+
+{% block tytul %}Lista filmów{% endblock %}
+
+{% block strona %}
+    <div class="jumbotron">
+        {% if user.is_authenticated  %}
+    <h1 class="display-4">
+        Witaj {{ user.username }}</h1>
+
+        <a href="{% url 'logout' %}" class="btn btn-primary">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
     {% else %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'register' %}">Rejestracja</a>
+        <a href="{% url 'login' %}" class="btn btn-primary">login <i class="fa-solid fa-right-to-bracket"></i></a>
+        <a href="{% url 'register' %}" class="btn btn-primary">rejestracja <i class="fa-solid fa-user"></i></a>
     {% endif %}
-    <hr>
+    </div>
 
     {% if filmy|length == 0 %}
         <h2>Brak filmów</h2>
     {% else %}
-    <h2>Ilość filmów w BD: {{ filmy|length }}</h2>
-    <a href="{% url 'nowy_film' %}">Nowy film</a>
-
+         <h2>Ilość filmów w BD: {{ filmy|length }}</h2>
+        <a href="{% url 'nowy_film' %}" class="btn btn-success">Nowy film <i class="fa-solid fa-plus"></i> </a>
+        <div style="margin-top: 10px;">
         {% for film in filmy %}
-            <h3>{{ film }}</h3>
-            <p>{{ film.opis }} </p>
-            <a href="{% url 'edytuj_film' film.id %}">Edytuj</a>
-            <a href="{% url 'usun_film' film.id %}">Usun</a>
-
+            <div class="card" style="width: 22rem;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <h5 class="card-title">{{ film }}</h5>
+                        </div>
+                        <div class="col-3">
+                            <a href="{% url 'edytuj_film' film.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{% url 'usun_film' film.id %}"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="card-text">{{ film.opis }}</p>
+                    </div>
+                </div>
+            </div>
 
         {% endfor %}
     {% endif %}
-
-</body>
-</html>
+{% endblock %}

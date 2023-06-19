@@ -1,19 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Czy na pewno chcesz usunac"{{ film.tytul }}"</h1>
+{% extends 'glowny.html' %}
 
-    <form method="post">
+{% block tytul %} Potwiedź {% endblock %}
+
+{% block strona %}
+
+   <div class="card" style="width: 50rem;">
+       <div class="card-body">
+           <h2 class="card-title">Czy na pewno chcesz usunac"{{ film.tytul }}"</h2><form method="post">
         {% csrf_token %}
-        <button type="submit">Usun film</button>
-    </form>
-    <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
-</body>
-</html>
+            <button type="submit" class="btn btn-danger">Usuń film <i class="fa-solid fa-trash"></i></button>
+            <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
+        </form>
+       </div>
+   </div>
+
+{% endblock %}
