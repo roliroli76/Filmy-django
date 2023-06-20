@@ -1,7 +1,13 @@
 body {
     padding: 2rem;
     position: absolute;
-
     left: 50%;
     transform: translate(-50%);
+}
+.film_plakat{
+    width: 150px;
+    float: left;
+}
+.film_icon{
+    font-size: 1.6rem;
 }

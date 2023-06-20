@@ -22,15 +22,16 @@
         <a href="{% url 'nowy_film' %}" class="btn btn-success">Nowy film <i class="fa-solid fa-plus"></i> </a>
         <div style="margin-top: 10px;">
         {% for film in filmy %}
-            <div class="card" style="width: 22rem;">
+            <div class="card" style="width: 40rem;">
                 <div class="card-body">
+                    <img src="/media/{{ film.plakat }}" class="film_plakat">
                     <div class="row">
                         <div class="col-9">
                             <h5 class="card-title">{{ film }}</h5>
                         </div>
                         <div class="col-3">
-                            <a href="{% url 'edytuj_film' film.id %}"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="{% url 'usun_film' film.id %}"><i class="fa-solid fa-trash"></i></a>
+                            <a href="{% url 'edytuj_film' film.id %}"><i class="fa-solid fa-pen-to-square film_icon"></i></a>
+                            <a href="{% url 'usun_film' film.id %}"><i class="fa-solid fa-trash film_icon"></i></a>
                         </div>
                     </div>
                     <div class="row">
