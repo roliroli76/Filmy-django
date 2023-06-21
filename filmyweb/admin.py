@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Film
+from .models import Film, DodatkoweInfo
 
 # Register your models here.
 
@@ -12,6 +12,9 @@ class FilmAdmin(admin.ModelAdmin):
     list_display = ["tytul", "imbd_rating", "rok"]
     list_filter = ("rok", "imbd_rating")
     search_fields = ("tytul",  "opis")
+
+
+admin.site.register(DodatkoweInfo)
 
 
 # dupa zobaczyny czy bedzie na githubie

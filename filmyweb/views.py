@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Film
-from .forms import FilmForm
+from .forms import FilmForm, FilmFormExtra
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -26,11 +26,27 @@ def register(request):
 @login_required
 def nowy_film(request):
     form = FilmForm(request.POST or None, request.FILES or None)
+    form_extra = FilmFormExtra(request.POST or None, request.FILES or None)
 
-    if form.is_valid():
-        form.save()
+    if form.is_valid() and form_extra.is_valid():
+        film = form.save(commit=False)
+        dodatkowe_info = form_extra.save()
+        film.dodatkowe = dodatkowe_info
+        film.save()
         return redirect(wszystkie_filmy)
-    return render(request, 'film_form.html', {'form': form, 'czy_nowy': True})
+
+    return render(request, 'film_form.html', {'form': form, 'form_extra': form_extra, 'czy_nowy': True})
+'''
+@login_required
+def nowy_film_ekstra(request):
+
+    formExtra = FilmFormExtra(request.POST or None, request.FILES or None)
+    if formExtra.is_valid():
+        formExtra.save()
+        return redirect(wszystkie_filmy)
+    return render(request, 'film_form_ekstra.html', {'form_Extra': formExtra, 'czy_nowy': True})
+'''
+
 
 
 @login_required
