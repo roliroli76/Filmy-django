@@ -36,30 +36,25 @@ def nowy_film(request):
         return redirect(wszystkie_filmy)
 
     return render(request, 'film_form.html', {'form': form, 'form_extra': form_extra, 'czy_nowy': True})
-'''
-@login_required
-def nowy_film_ekstra(request):
-
-    formExtra = FilmFormExtra(request.POST or None, request.FILES or None)
-    if formExtra.is_valid():
-        formExtra.save()
-        return redirect(wszystkie_filmy)
-    return render(request, 'film_form_ekstra.html', {'form_Extra': formExtra, 'czy_nowy': True})
-'''
 
 
 
 @login_required
 def edytuj_film(request, id):
-    film = get_object_or_404(Film, pk=id) # primary key
+    film_id = get_object_or_404(Film, pk=id) # primary key
     form = FilmForm(request.POST or None, request.FILES or None,
-                    instance=film)
+                    instance=film_id)
+    form_extra = FilmFormExtra(request.POST or None, request.FILES or None,
+                               instance=film_id)
 
-    if form.is_valid():
-        form.save()
+    if form.is_valid() and form_extra.is_valid():
+        film = form.save(commit=False)
+        dodatkowe_info = form_extra.save()
+        film.dodatkowe = dodatkowe_info
+        film.save()
         return redirect(wszystkie_filmy)
 
-    return render(request, 'film_form.html', {'form': form, 'czy_nowy': False})
+    return render(request, 'film_form.html', {'form': form, 'form_extra': form_extra, 'czy_nowy': False})
 
 
 @login_required

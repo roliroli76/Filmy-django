@@ -1,34 +1,31 @@
 {% extends 'glowny.html' %}
 {% load bootstrap %}
+
 {% block tytul %} Film form {% endblock %}
 
 {% block strona %}
-        <div class="card" style="width: 32rem;">
-      <div class="card-body">
-
+    <div class="card" style="width: 32rem;">
+        <div class="card-body">
             {% if czy_nowy %}
-            <h5 class="card-title">Dadaj film</h5>
-        {% else %}
-            <h5 class="card-title">Edytuj film</h5>
-        {% endif %}
+                <h5 class="card-title">Dodaj film</h5>
+            {% else %}
+                <h5 class="card-title">Edytuj film</h5>
+            {% endif %}
 
-        <form method="post" enctype="multipart/form-data">
-        {%   csrf_token %}
-        {{ form|bootstrap }}
-        {% if czy_nowy %}
-            <div style="margin-top: 10px;">
-            <button type="submit"class="btn btn-success" >Dodaj film <i class="fa-solid fa-plus"></i></button>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                {{ form_extra|bootstrap }}
 
-        {% else %}
-            <div style="margin-top: 10px;">
-            <button type="submit" class="btn btn-success">Zapisz zmiany <i class="fa-solid fa-pen-to-square"></i></button>
-        {% endif %}
-        <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
-            </div>
-        </form>
-      </div>
+                <div style="margin-top: 10px;">
+                    {% if czy_nowy %}
+                        <button type="submit" class="btn btn-success">Dodaj film <i class="fa-solid fa-plus"></i></button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success">Zapisz zmiany <i class="fa-solid fa-pen-to-square"></i></button>
+                    {% endif %}
+                    <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-
-
 {% endblock %}
