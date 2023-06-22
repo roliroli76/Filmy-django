@@ -11,14 +11,10 @@
     </style>
 
     <div class="row">
-        <div class="col-lg-6">
-            <div class="card custom-card">
+        {% if czy_nowy %}
+            <div class="card" style="width: 42rem;">
                 <div class="card-body">
-                    {% if czy_nowy %}
-                        <h5 class="card-title">Dodaj film</h5>
-                    {% else %}
-                        <h5 class="card-title">Edytuj film</h5>
-                    {% endif %}
+                    <h5 class="card-title">Dodaj film</h5>
 
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
@@ -26,39 +22,58 @@
                         {{ form_extra|bootstrap }}
 
                         <div style="margin-top: 10px;">
-                            {% if czy_nowy %}
-                                <button type="submit" class="btn btn-success">Dodaj film <i class="fa-solid fa-plus"></i></button>
-                            {% else %}
-                                <button type="submit" class="btn btn-success">Zapisz zmiany <i class="fa-solid fa-pen-to-square"></i></button>
-                            {% endif %}
+                            <button type="submit" class="btn btn-success">Dodaj film <i class="fa-solid fa-plus"></i></button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card custom-card">
-                <div class="card-body">
-                    <h5 class="card-title">Oceń film</h5>
+        {% else %}
+            <div class="col-lg-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{% if czy_nowy %}Dodaj film{% else %}Edytuj film{% endif %}</h5>
 
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|bootstrap }}
+                            {{ form_extra|bootstrap }}
 
-                        {{ form_ocena|bootstrap }}
+                            <div style="margin-top: 10px;">
+                                <button type="submit" class="btn btn-success">
+                                    {% if czy_nowy %}Dodaj film{% else %}Zapisz zmiany{% endif %}
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
-                        <div style="margin-top: 10px;">
-                            <button type="submit" class="btn btn-success">Zapisz recenzje <i class="fa-solid fa-pen-to-square"></i></button>
+            </div>
+            <div class="col-lg-6">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Oceń film</h5>
 
-                            {% for ocena in oceny %}
-                                <h4> Gwiazdki: {{ ocena.gwiazdki }}/5 </h4>
-                                <p> Recenzja: {{ ocena.recenzja }}</p>
-                            {% endfor %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
 
-                            <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
-                        </div>
-                    </form>
+                            {{ form_ocena|bootstrap }}
+
+                            <div style="margin-top: 10px;">
+                                <button type="submit" class="btn btn-success">Zapisz recenzje <i class="fa-solid fa-pen-to-square"></i></button>
+
+                                {% for ocena in oceny %}
+                                    <h4> Gwiazdki: {{ ocena.gwiazdki }}/5 </h4>
+                                    <p> Recenzja: {{ ocena.recenzja }}</p>
+                                {% endfor %}
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
+    <a href="{% url 'wszystkie_filmy' %}">Cofnij</a>
     </div>
+
 {% endblock %}

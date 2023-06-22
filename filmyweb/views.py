@@ -5,13 +5,15 @@ from .forms import FilmForm, FilmFormExtra, OcenaForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Avg
 # Create your views here.
 
 
 def wszystkie_filmy(request):
-    wszystkie = Film.objects.all()
-    recenzje = Ocena.objects.all()
-    return render(request, 'filmy.html', {'filmy': wszystkie, 'recenzje': recenzje})
+    filmy = Film.objects.all()
+    oceny = Ocena.objects.values('film').annotate(srednia_ocen=Avg('gwiazdki'))
+    context = {'filmy': filmy, 'oceny': oceny}
+    return render(request, 'filmy.html', context)
 
 def register(request):
     if request.method == 'POST':
