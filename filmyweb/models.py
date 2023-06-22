@@ -12,6 +12,11 @@ class DodatkoweInfo(models.Model):
     czas_trwania = models.PositiveSmallIntegerField(default=0)
     gatunek = models.PositiveSmallIntegerField(default=0, choices=GATUNEK)
 
+    def __str__(self):
+        return self.parametry()
+
+    def parametry(self):
+        return "{} ({})".format( self.gatunek, self.czas_trwania)
 
 
 class Film(models.Model):
@@ -29,6 +34,20 @@ class Film(models.Model):
 
     def tytul_z_rokiem(self):
         return "{} ({})".format(self.tytul, self.rok)
+
+
+class Ocena(models.Model):
+    recenzja = models.TextField(default="", blank=True)
+    gwiazdki = models.PositiveSmallIntegerField(default=5)
+    film = models.ForeignKey(Film, on_delete=models.CASCADE)
+
+class Actor(models.Model):
+    name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    filmy = models.ManyToManyField(Film, related_name="aktorzy")
+
+
+
 
 
 

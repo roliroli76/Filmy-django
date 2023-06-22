@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Film, DodatkoweInfo
+from .models import Film, DodatkoweInfo, Ocena, Actor
 
 # Register your models here.
 
@@ -15,6 +15,7 @@ class FilmAdmin(admin.ModelAdmin):
 
 
 admin.site.register(DodatkoweInfo)
+admin.site.register(Ocena)
+admin.site.register(Actor)
 
 
-# dupa zobaczyny czy bedzie na githubie

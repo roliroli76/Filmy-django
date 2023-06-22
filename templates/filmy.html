@@ -5,20 +5,20 @@
 {% block strona %}
     <div class="jumbotron">
         {% if user.is_authenticated  %}
-    <h1 class="display-4">
-        Witaj {{ user.username }}</h1>
+            <h1 class="display-4">
+                Witaj {{ user.username }}</h1>
 
-        <a href="{% url 'logout' %}" class="btn btn-primary">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
-    {% else %}
-        <a href="{% url 'login' %}" class="btn btn-primary">login <i class="fa-solid fa-right-to-bracket"></i></a>
-        <a href="{% url 'register' %}" class="btn btn-primary">rejestracja <i class="fa-solid fa-user"></i></a>
-    {% endif %}
+            <a href="{% url 'logout' %}" class="btn btn-primary">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary">login <i class="fa-solid fa-right-to-bracket"></i></a>
+            <a href="{% url 'register' %}" class="btn btn-primary">rejestracja <i class="fa-solid fa-user"></i></a>
+        {% endif %}
     </div>
 
     {% if filmy|length == 0 %}
         <h2>Brak filmów</h2>
     {% else %}
-         <h2>Ilość filmów w BD: {{ filmy|length }}</h2>
+        <h2>Ilość filmów w BD: {{ filmy|length }}</h2>
         <a href="{% url 'nowy_film' %}" class="btn btn-success">Nowy film <i class="fa-solid fa-plus"></i> </a>
         <div style="margin-top: 10px;">
         {% for film in filmy %}
@@ -35,11 +35,18 @@
                         </div>
                     </div>
                     <div class="row">
-                        <p class="card-text">{{ film.opis }}</p>
+                        <p class="card-text">{{ film.opis}}</p>
+
+                        {% for recenzja in recenzje %}
+                            {% if recenzja.film == film %}
+                                <p>Gwiazdki: {{ recenzja.gwiazdki }}</p>
+                            {% endif %}
+                        {% endfor %}
+                        <p class="card-text">Data premiery: {{film.premiera}}</p>
+                        <p class="card-text">Ocena krytyków: {{ film.imbd_rating}}</p>
                     </div>
                 </div>
             </div>
-
         {% endfor %}
     {% endif %}
 {% endblock %}
